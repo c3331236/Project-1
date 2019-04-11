@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+int task1(int r, char m);  //Task 1 function prototype    
+
+int main() {
+    printf("Select Task: \n"); 
+    printf("1, 2, 3, 4, 5, 6 \n\n");
+    
+    int tasknum = 1;  //Task number
+    
+    switch(tasknum) { //Task selection
+        case 1: tasknum = 1;
+            int r = 1;  //Rotation amount
+            int e;  //Encrypted message
+            char msg[26] = "RANDOM";  //Message
+            
+            printf("You Selected: 1\n\n");
+            printf("Message: %s\n\n", msg);
+            e = task1(r, *msg);  /*Sending rotation amount and 
+                                 message to task 1 function*/
+            printf("Encrypted Message: %c", e);    //Prints encrypted message to console
+            break;
+        
+        case 2: tasknum = 2;
+            printf("You Selected: 2");
+            break;
+
+        case 3: tasknum = 3;
+            printf("You Selected: 3");
+            break;
+        
+        case 4: tasknum = 4;
+            printf("You Selected: 4");
+            break;
+        
+        case 5: tasknum = 5;
+            printf("You Selected: 5");
+            break;
+        
+        case 6: tasknum = 6;
+            printf("You Selected: 6");
+            break;
+        
+        default:
+            printf("Please select a number from 1-6");
+        
+    }
+    return 0;
+}
+
+int task1(int r, char m) { 
+    char encrypt;  //Initialising variable inside function
+    encrypt = m + r;  //Applying rotation to message
+   
+    return encrypt;  //Returns encrypted message to "e"
+}
