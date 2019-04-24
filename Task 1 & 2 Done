@@ -1,0 +1,101 @@
+#include <stdio.h>
+
+int task1(char msg[50], char enc[50], int r);    //Task 1 function prototype    
+
+int task2(char msg[50], char enc[50], int r);    //Task 2 function prototype
+
+int main() {
+    printf("Select Task: \n"); 
+    printf("1, 2, 3, 4, 5, 6 \n\n");
+    int tasknum = 1;    //Task number
+    int r1 = 5;    //Rotation amount
+    char msg1[50] = "RANDOM";    //Message
+    
+    switch(tasknum) {   //Task selection
+        case 1: tasknum = 1;
+            char enc1[50];   //Encrypted Message
+            
+            printf("You Selected: Task 1\n\n");
+            printf("Message: %s\n\n", msg1);
+            printf("Rotation amount: %d\n\n", r1);
+            
+            enc1[50] = task1(msg1, enc1, r1);  /*Sending rotation amount and 
+                                            message to task 1 function*/
+            
+            printf("Encrypted Message: %s", enc1);    //Prints encrypted message to console
+            break;
+        
+        case 2: tasknum = 2;
+            int r2 = r1;
+            char enc2[50] = "WFSITR";
+            char msg2[50];
+            
+            printf("You Selected: Task 2\n\n");
+            printf("Encrypted Message: %s\n\n", enc2);
+            printf("Rotation amount: %d\n\n", r2);
+            
+            msg2[50] = task2(msg2, enc2, r2);
+            
+            printf("Decrypted Message: %s", msg2);
+            break;
+
+        case 3: tasknum = 3;
+            printf("You Selected: Task 3");
+            break;
+        
+        case 4: tasknum = 4;
+            printf("You Selected: Task 4");
+            break;
+        
+        case 5: tasknum = 5;
+            printf("You Selected: Task 5");
+            break;
+        
+        case 6: tasknum = 6;
+            printf("You Selected: Task 6");
+            break;
+        
+        default:
+            printf("Please select a number from 1-6");
+        
+    }
+    return 0;
+}
+
+
+int task1(char msg[50], char enc[50], int r) { 
+    int i;
+    char c;
+    
+    for(i = 0; msg[i] != '\0'; ++i){
+        c = msg[i];
+        
+        if(c >= 'A' && c <= 'Z'){
+            c = c + r;                          //Encryption
+            
+            if(c > 'Z'){
+                c = c - 'Z' + 'A' - 1;
+            }
+            
+            enc[i] = c; 
+        } 
+    }
+    return enc[i];    //Returning encrypted message to main to print
+}
+
+
+int task2(char msg[50], char enc[50], int r) {
+    int i;
+    char c;
+    
+    for(i = 0; enc[i] != '\0'; ++i){
+        c = enc[i];
+        
+        if(c >= 'A' && c <= 'Z'){
+            c = c - r;                          //Decryption
+            msg[i] = c; 
+        } 
+    }
+    return msg[i];    //Returning decrypted message to main to print
+    
+}
