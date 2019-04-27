@@ -1,0 +1,403 @@
+#include <stdio.h>
+
+int task1(char msg[50], char enc[50], int r);    //Task 1 function prototype    
+
+int task2(char msg[50], char enc[50], int r);    //Task 2 function prototype
+
+int task3(char msg[50], char enc[50]);           //Task 3 function prototype
+
+int task4(char msg[50], char enc[50]);           //Task 4 function prototype
+
+int task5(char msg[50], char enc[50], int r);    //Task 5 function prototype
+
+int main() {
+    printf("Select Task: \n");          
+    printf("1, 2, 3, 4, 5, 6 \n\n");
+    int tasknum = 5;    //Task selection
+    int r1 = 4;    //Rotation amount
+    char msg1[50] = "RANDOM STUFF";    //Message
+    
+    switch(tasknum) {   //Task selection
+        case 1: tasknum = 1;    //Encryption of a message with a rotation cipher
+            char enc1[50];   //Encrypted Message
+            
+            printf("You Selected: Task 1\n\n");
+            printf("Message: %s\n\n", msg1);
+            printf("Rotation amount: %d\n\n", r1);
+            
+            enc1[50] = task1(msg1, enc1, r1);  /*Sending rotation amount and 
+                                            message to task 1 function*/
+            
+            printf("Encrypted Message: %s", enc1);    //Prints encrypted message to console
+            break;
+        
+        case 2: tasknum = 2;    //Decryption of a message encrypted with a rotation cipher
+            int r2 = r1;    
+            char enc2[50] = "VERHSQ WXYJJ";    //Encrypted message     
+            char msg2[50];
+            
+            printf("You Selected: Task 2\n\n");
+            printf("Encrypted Message: %s\n\n", enc2);
+            printf("Rotation amount: %d\n\n", r2);
+            
+            msg2[50] = task2(msg2, enc2, r2);    //Sending the encrypted message and rotation amount to task 2 function
+            
+            printf("Decrypted Message: %s", msg2);    //Prints decrypted message to console
+            break;
+
+        case 3: tasknum = 3;    //Encryption of a message with a substitution cipher
+            printf("You Selected: Task 3\n\n");
+            printf("Message: %s\n\n", msg1);
+            char enc3[50];
+            
+            enc3[50] = task3(msg1, enc3);
+            
+            printf("Encrypted Message: %s", enc3);
+            break;
+        
+        case 4: tasknum = 4;
+            printf("You Selected: Task 4\n\n");
+            char enc4[50] = "MRGPNJ WSLBB";
+            char msg4[50];
+            printf("Encrypted Message: %s\n\n", enc4);
+            
+            msg4[50] = task4(msg4, enc4);
+            
+            printf("Decrypted Message: %s", msg4);
+            break;
+        
+        case 5: tasknum = 5;
+            printf("You Selected: Task 5\n\n");
+            char enc5[50] = "VERHSQ WXYJJ";
+            char msg5[50];
+            int r = 1;
+            printf("Encrypted Message: %s\n\n", enc5);
+            printf("Rotation Amount: Unknown\n\n");
+            
+            for(r >= 1; r <= 25; r++){
+                msg5[50] = task5(msg5, enc5, r);
+                printf("Rotation of %d: %s\n", r, msg5);
+            }            
+            break;
+        
+        case 6: tasknum = 6;
+            printf("You Selected: Task 6");
+            break;
+        
+        default:
+            printf("Please select a number from 1-6");
+        
+    }
+    return 0;
+}
+
+
+int task1(char msg[50], char enc[50], int r) { 
+    int i;
+    char c;
+    
+    for(i = 0; msg[i] != '\0'; ++i){
+        c = msg[i];
+        
+        if(c >= 'A' && c <= 'Z'){
+            c = c + r;                          //Encryption
+            
+            if(c > 'Z'){
+                c = c - 'Z' + 'A' - 1;
+            }
+            enc[i] = c;
+        }
+        else if((c == 32)){
+            c = c;    //Space
+            enc[i] = c; 
+        } 
+    }
+    return enc[i];    //Returning encrypted message to main
+}
+
+
+int task2(char msg[50], char enc[50], int r) {
+    int i;
+    char c;
+    
+    for(i = 0; enc[i] != '\0'; ++i){
+        c = enc[i];
+        
+        if(c >= 'A' && c <= 'Z'){
+            c = c - r;                          //Decryption
+            msg[i] = c; 
+        }
+        else if((c == 32)){
+            c = c;    //Space
+            msg[i] = c;
+        }
+    }
+    return msg[i];    //Returning decrypted message to main
+    
+}
+
+
+int task3(char msg[50], char enc[50]) {
+    int i;
+    char c;
+    
+    for(i = 0; msg[i] != '\0'; ++i){
+        c = msg[i];
+        
+        if((c == 'A')){
+            c = c + 17;    //R
+            enc[i] = c;
+        }
+        else if((c == 'B')){
+            c = c + 24;    //Z
+            enc[i] = c;    
+        }
+        else if((c == 'C')){
+            c = c + 22;    //Y
+            enc[i] = c;    
+        }
+        else if((c == 'D')){
+            c = c + 12;    //P
+            enc[i] = c;    
+        }
+        else if((c == 'E')){
+            c = c - 1;    //D
+            enc[i] = c;    
+        }
+        else if((c == 'F')){
+            c = c - 4;    //B
+            enc[i] = c;    
+        }
+        else if((c == 'G')){
+            c = c + 2;    //I
+            enc[i] = c;    
+        }
+        else if((c == 'H')){
+            c = c + 3;    //K
+            enc[i] = c;    
+        }
+        else if((c == 'I')){
+            c = c - 1;    //H
+            enc[i] = c;    
+        }
+        else if((c == 'J')){
+            c = c - 7;    //C
+            enc[i] = c;    
+        }
+        else if((c == 'K')){
+            c = c - 5;    //F
+            enc[i] = c;    
+        }
+        else if((c =='L')){
+            c = c + 9;    //U
+            enc[i] = c;    
+        }
+        else if((c == 'M')){
+            c = c - 3;    //J
+            enc[i] = c;    
+        }
+        else if((c == 'N')){
+            c = c - 7;    //G
+            enc[i] = c;    
+        }
+        else if((c == 'O')){
+            c = c - 1 ;    //N
+            enc[i] = c;    
+        }
+        else if((c == 'P')){
+            c = c - 1;    //O
+            enc[i] = c;    
+        }
+        else if((c == 'Q')){
+            c = c - 12;    //E
+            enc[i] = c;    
+        }
+        else if((c == 'R')){
+            c = c - 5 ;    //M
+            enc[i] = c;    
+        }
+        else if((c == 'S')){
+            c = c + 4;    //W
+            enc[i] = c;    
+        }
+        else if((c == 'T')){
+            c = c - 1;    //S
+            enc[i] = c;    
+        }
+        else if((c == 'U')){
+            c = c - 9 ;    //L
+            enc[i] = c;    
+        }
+        else if((c == 'V')){
+            c = c + 2;    //X
+            enc[i] = c;    
+        }
+        else if((c == 'W')){
+            c = c - 1;    //V
+            enc[i] = c;    
+        }
+        else if((c == 'X')){
+            c = c - 4;    //T
+            enc[i] = c;    
+        }
+        else if((c == 'Y')){
+            c = c - 8;    //Q
+            enc[i] = c;    
+        }
+        else if((c == 'Z')){
+            c = c - 25;    //A
+            enc[i] = c;    
+        }
+        else if((c == 32)){
+            c = c;    //Space
+            enc[i] = c;
+        }
+    } 
+    return enc[i];
+}
+
+
+int task4(char msg[50], char enc[50]) {
+    int i;
+    char c;
+    
+    for(i = 0; enc[i] != '\0'; ++i){
+        c = enc[i];
+        
+        if((c == 'R')){
+            c = c - 17;    //A
+            msg[i] = c;
+        }
+        else if((c == 'Z')){
+            c = c - 24;    //B
+            msg[i] = c;    
+        }
+        else if((c == 'Y')){
+            c = c - 22;    //C
+            msg[i] = c;    
+        }
+        else if((c == 'P')){
+            c = c - 12;    //D
+            msg[i] = c;    
+        }
+        else if((c == 'D')){
+            c = c + 1;    //E
+            msg[i] = c;    
+        }
+        else if((c == 'B')){
+            c = c + 4;    //F
+            msg[i] = c;    
+        }
+        else if((c == 'I')){
+            c = c - 2;    //G
+            msg[i] = c;    
+        }
+        else if((c == 'K')){
+            c = c - 3;    //H
+            msg[i] = c;    
+        }
+        else if((c == 'H')){
+            c = c + 1;    //I
+            msg[i] = c;    
+        }
+        else if((c == 'C')){
+            c = c + 7;    //J
+            msg[i] = c;    
+        }
+        else if((c == 'F')){
+            c = c + 5;    //K
+            msg[i] = c;    
+        }
+        else if((c =='U')){
+            c = c - 9;    //L
+            msg[i] = c;    
+        }
+        else if((c == 'J')){
+            c = c + 3;    //M
+            msg[i] = c;    
+        }
+        else if((c == 'G')){
+            c = c + 7;    //N
+            msg[i] = c;    
+        }
+        else if((c == 'N')){
+            c = c + 1 ;    //O
+            msg[i] = c;    
+        }
+        else if((c == 'O')){
+            c = c + 1;    //P
+            msg[i] = c;    
+        }
+        else if((c == 'E')){
+            c = c + 12;    //Q
+            msg[i] = c;    
+        }
+        else if((c == 'M')){
+            c = c + 5 ;    //R
+            msg[i] = c;    
+        }
+        else if((c == 'W')){
+            c = c - 4;    //S
+            msg[i] = c;    
+        }
+        else if((c == 'S')){
+            c = c + 1;    //T
+            msg[i] = c;    
+        }
+        else if((c == 'L')){
+            c = c + 9 ;    //U
+            msg[i] = c;    
+        }
+        else if((c == 'X')){
+            c = c - 2;    //V
+            msg[i] = c;    
+        }
+        else if((c == 'V')){
+            c = c + 1;    //W
+            msg[i] = c;    
+        }
+        else if((c == 'X')){
+            c = c + 4;    //T
+            msg[i] = c;    
+        }
+        else if((c == 'Q')){
+            c = c + 8;    //Y
+            msg[i] = c;    
+        }
+        else if((c == 'A')){
+            c = c + 25;    //Z
+            msg[i] = c;    
+        }
+        else if((c == 32)){
+            c = c;    //Space
+            msg[i] = c;
+        }
+    } 
+    return msg[i];
+}
+
+
+int task5(char msg[50], char enc[50], int r){
+    int i;
+    char c;
+    
+    for(i = 0; enc[i] != '\0'; ++i){
+        c = enc[i];
+        
+        if(c >= 'A' && c <= 'Z'){
+            c = c - r;                          //Decryption
+            
+            if(c < 'A'){
+                c = c + 'Z' - 'A' + 1;
+            }
+            msg[i] = c;
+            
+        }
+        else if((c == 32)){
+            c = c;    //Whitespace
+            msg[i] = c;
+        }
+    }
+    return msg[i];    //Returning decrypted message to main    
+    
+}
