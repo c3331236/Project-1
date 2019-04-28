@@ -1,0 +1,401 @@
+#include <stdio.h>
+
+int task1(char msg[50], char enc[50], int r);    //Task 1 function prototype    
+
+int task2(char msg[50], char enc[50], int r);    //Task 2 function prototype
+
+int task3(char msg[50], char enc[50]);           //Task 3 function prototype
+
+int task4(char msg[50], char enc[50]);           //Task 4 function prototype
+
+int task5(char msg[50], char enc[50], int r);    //Task 5 function prototype
+
+int main() {
+    printf("Select Task: \n");          
+    printf("1, 2, 3, 4, 5 \n\n");
+    int tasknum = 2;                 //Task selection
+    int r1 = 4;                      //Rotation amount
+    char msg1[50] = "RANDOM STUFF";  //Message
+    
+    switch(tasknum) {               //Task selection
+        
+        case 1: tasknum = 1;        //Encryption of a message with a rotation cipher
+            char enc1[50];          //Encrypted Message
+            
+            printf("You Selected: Task 1\n\n");
+            printf("Message: %s\n\n", msg1);
+            printf("Rotation amount: %d\n\n", r1);
+            
+            enc1[50] = task1(msg1, enc1, r1);       //Sending message, the encrypted message string (Which currently contains nothing) and rotation amount to task 1 function
+            
+            printf("Encrypted Message: %s", enc1);  //Prints encrypted message to console
+            break;
+        
+        case 2: tasknum = 2;                        //Decryption of a message encrypted with a rotation cipher
+            int r2 = r1;    
+            char enc2[50] = "VERHSQ WXYJJ";         //Encrypted message     
+            char msg2[50];
+            
+            printf("You Selected: Task 2\n\n");
+            printf("Encrypted Message: %s\n\n", enc2);
+            printf("Rotation amount: %d\n\n", r2);
+            
+            msg2[50] = task2(msg2, enc2, r2);       //Sending the encrypted message and rotation amount to task 2 function
+            
+            printf("Decrypted Message: %s", msg2);  //Prints decrypted message to console
+            break;
+
+        case 3: tasknum = 3;                        //Encryption of a message with a substitution cipher
+            printf("You Selected: Task 3\n\n");
+            printf("Message: %s\n\n", msg1);
+            char enc3[50];
+            
+            enc3[50] = task3(msg1, enc3);           //Sending the message and encrypted message (which is blank) to task 3 function
+            
+            printf("Encrypted Message: %s", enc3);  //Printing the encrypted message to the console
+            break;
+        
+        case 4: tasknum = 4;                        //Decryption of a message that is encrypted with a substitution cipher
+            printf("You Selected: Task 4\n\n"); 
+            char enc4[50] = "MRGPNJ WSLBB";         //Encrypted message
+            char msg4[50];
+            printf("Encrypted Message: %s\n\n", enc4);
+            
+            msg4[50] = task4(msg4, enc4);           //Sending the encrypted message and the decrypted message (currently blank) strings to the task 4 function
+            
+            printf("Decrypted Message: %s", msg4);  //Printing  the decrypted message to the console
+            break;
+        
+        case 5: tasknum = 5;                        //Decryption of a message that is encrypted with a rotation cipher without knowledge of the rotation amount
+            printf("You Selected: Task 5\n\n");
+            char enc5[50] = "VERHSQ WXYJJ";         //Encrypted message
+            char msg5[50];
+            int r = 1;
+            printf("Encrypted Message: %s\n\n", enc5);
+            printf("Rotation Amount: Unknown\n\n");
+            
+            for(r >= 1; r <= 25; r++){                    //Initialising "for" loop for every possible rotation amount
+                msg5[50] = task5(msg5, enc5, r);          //Sending the message (currently blank) and encrypted message strings as well as rotation amount to task 5 function
+                printf("Rotation of %d: %s\n", r, msg5);  //Printing all possible decryptions using all possible rotations
+            }            
+            break;
+        
+        default:                                          //If task 1 - 5 aren't selected, the user is prompted to select a task from 1 - 5
+            printf("Please select a number from 1-5");    
+        
+    }
+    return 0;
+}
+
+
+int task1(char msg[50], char enc[50], int r) { 
+    int i;
+    char c;
+    
+    for(i = 0; msg[i] != '\0'; ++i){    //Initialising "for" loop
+        c = msg[i];                     //Assigning msg[i] to "c" (character)
+        
+        if(c >= 'A' && c <= 'Z'){
+            c = c + r;                  //Assigning the initial character + the rotation amount to the value of c       
+            
+            if(c > 'Z'){
+                c = c - 'Z' + 'A' - 1;  //If the ASCII value of c is greater than "Z", make the character go back to the start of the alphabet instead of continuing
+            }
+            enc[i] = c;                 //Assigning the value of c to enc[i] (Encrypted message)    
+        }
+        else if((c == 32)){
+            c = c;                      //This code makes sure whitespace remains as whitespace instead of changing to another ASCII value
+            enc[i] = c; 
+        } 
+    }
+    return enc[i];                      //Returning encrypted message to main
+}
+
+
+int task2(char msg[50], char enc[50], int r) {
+    int i;
+    char c;
+    
+    for(i = 0; enc[i] != '\0'; ++i){    //Initialising "for" loop
+        c = enc[i];                     //Assigning enc[i] to "c" (character)
+        
+        if(c >= 'A' && c <= 'Z'){
+            c = c - r;                  //Assigning the initial character - the rotation amount to the value of c (This reverses the rotation applied)         
+            
+            if(c < 'A'){
+                c = c + 'Z' - 'A' + 1;  //If the ASCII value of c is less than "A", make the character go back to the end of the alphabet instead of continuing
+            }
+            msg[i] = c;                 //Assigning the value of c to msg[i] (Decrypted message)
+        }
+        else if((c == 32)){
+            c = c;                      //This code makes sure whitespace remains as whitespace instead of changing to another ASCII value
+            msg[i] = c;
+        }
+    }
+    return msg[i];                      //Returning decrypted message to main
+    
+}
+
+
+int task3(char msg[50], char enc[50]) {
+    int i;
+    char c;
+    
+    for(i = 0; msg[i] != '\0'; ++i){    //Initialising "for" loop
+        c = msg[i];
+        
+        if((c == 'A')){
+            c = c + 17;    //Changing A to R
+            enc[i] = c;
+        }
+        else if((c == 'B')){
+            c = c + 24;    //Changing B to Z
+            enc[i] = c;    
+        }
+        else if((c == 'C')){
+            c = c + 22;    //Changing C to Y
+            enc[i] = c;    
+        }
+        else if((c == 'D')){
+            c = c + 12;    //Changing D to P
+            enc[i] = c;    
+        }
+        else if((c == 'E')){
+            c = c - 1;     //Changing E to D
+            enc[i] = c;    
+        }
+        else if((c == 'F')){
+            c = c - 4;     //Changing F to B
+            enc[i] = c;    
+        }
+        else if((c == 'G')){
+            c = c + 2;     //Changing G to I
+            enc[i] = c;    
+        }
+        else if((c == 'H')){
+            c = c + 3;     //Changing H to K
+            enc[i] = c;    
+        }
+        else if((c == 'I')){
+            c = c - 1;     //Changing I to H
+            enc[i] = c;    
+        }
+        else if((c == 'J')){
+            c = c - 7;     //Changing J to C
+            enc[i] = c;    
+        }
+        else if((c == 'K')){
+            c = c - 5;     //Changing K to F
+            enc[i] = c;    
+        }
+        else if((c == 'L')){
+            c = c + 9;     //Changing L to U
+            enc[i] = c;    
+        }
+        else if((c == 'M')){
+            c = c - 3;     //Changing M to J
+            enc[i] = c;    
+        }
+        else if((c == 'N')){
+            c = c - 7;     //Changing N to G
+            enc[i] = c;    
+        }
+        else if((c == 'O')){
+            c = c - 1 ;    //Changing O to N
+            enc[i] = c;    
+        }
+        else if((c == 'P')){
+            c = c - 1;     //Changing P to O
+            enc[i] = c;    
+        }
+        else if((c == 'Q')){
+            c = c - 12;    //Changing Q to E
+            enc[i] = c;    
+        }
+        else if((c == 'R')){
+            c = c - 5 ;    //Changing R to M
+            enc[i] = c;    
+        }
+        else if((c == 'S')){
+            c = c + 4;     //Changing S to W
+            enc[i] = c;    
+        }
+        else if((c == 'T')){
+            c = c - 1;     //Changing T to S
+            enc[i] = c;    
+        }
+        else if((c == 'U')){
+            c = c - 9 ;    //Changing U to L
+            enc[i] = c;    
+        }
+        else if((c == 'V')){
+            c = c + 2;     //Changing V to X
+            enc[i] = c;    
+        }
+        else if((c == 'W')){
+            c = c - 1;     //Changing W to V
+            enc[i] = c;    
+        }
+        else if((c == 'X')){
+            c = c - 4;     //Changing X to T
+            enc[i] = c;    
+        }
+        else if((c == 'Y')){
+            c = c - 8;     //Changing Y to Q
+            enc[i] = c;    
+        }
+        else if((c == 'Z')){
+            c = c - 25;    //Changing Z to A
+            enc[i] = c;    
+        }
+        else if((c == 32)){
+            c = c;         //This code makes sure whitespace remains as whitespace instead of changing to another ASCII value
+            enc[i] = c;
+        }
+    } 
+    return enc[i];         //Returning the encrypted message to main
+}
+
+
+int task4(char msg[50], char enc[50]) {
+    int i;
+    char c;
+    
+    for(i = 0; enc[i] != '\0'; ++i){
+        c = enc[i];
+        
+        if((c == 'R')){
+            c = c - 17;    //Changing R back to A
+            msg[i] = c;
+        }
+        else if((c == 'Z')){
+            c = c - 24;    //Changing Z back to B
+            msg[i] = c;    
+        }
+        else if((c == 'Y')){
+            c = c - 22;    //Changing Y back to C
+            msg[i] = c;    
+        }
+        else if((c == 'P')){
+            c = c - 12;    //Changing P back to D
+            msg[i] = c;    
+        }
+        else if((c == 'D')){
+            c = c + 1;     //Changing D back to E
+            msg[i] = c;    
+        }
+        else if((c == 'B')){
+            c = c + 4;     //Changing B back to F
+            msg[i] = c;    
+        }
+        else if((c == 'I')){
+            c = c - 2;     //Changing I back to G
+            msg[i] = c;    
+        }
+        else if((c == 'K')){
+            c = c - 3;     //Changing K back to H
+            msg[i] = c;    
+        }
+        else if((c == 'H')){
+            c = c + 1;     //Changing H back to I
+            msg[i] = c;    
+        }
+        else if((c == 'C')){
+            c = c + 7;     //Changing C back to J
+            msg[i] = c;    
+        }
+        else if((c == 'F')){
+            c = c + 5;     //Changing F back to K
+            msg[i] = c;    
+        }
+        else if((c =='U')){
+            c = c - 9;     //Changing U back to L
+            msg[i] = c;    
+        }
+        else if((c == 'J')){
+            c = c + 3;     //Changing J back to M
+            msg[i] = c;    
+        }
+        else if((c == 'G')){
+            c = c + 7;     //Changing G back to N
+            msg[i] = c;    
+        }
+        else if((c == 'N')){
+            c = c + 1 ;    //Changing N back to O
+            msg[i] = c;    
+        }
+        else if((c == 'O')){
+            c = c + 1;     //Changing O back to P
+            msg[i] = c;    
+        }
+        else if((c == 'E')){
+            c = c + 12;    //Changing E back to Q
+            msg[i] = c;    
+        }
+        else if((c == 'M')){
+            c = c + 5 ;    //Changing M back to R
+            msg[i] = c;    
+        }
+        else if((c == 'W')){
+            c = c - 4;     //Changing W back to S
+            msg[i] = c;    
+        }
+        else if((c == 'S')){
+            c = c + 1;     //Changing S back to T
+            msg[i] = c;    
+        }
+        else if((c == 'L')){
+            c = c + 9 ;    //Changing L back to U
+            msg[i] = c;    
+        }
+        else if((c == 'X')){
+            c = c - 2;     //Changing X back to V
+            msg[i] = c;    
+        }
+        else if((c == 'V')){
+            c = c + 1;     //Changing V back to W
+            msg[i] = c;    
+        }
+        else if((c == 'X')){
+            c = c + 4;     //Changing X back to T
+            msg[i] = c;    
+        }
+        else if((c == 'Q')){
+            c = c + 8;     //Changing Q back to Y
+            msg[i] = c;    
+        }
+        else if((c == 'A')){
+            c = c + 25;    //Changing A back to Z
+            msg[i] = c;    
+        }
+        else if((c == 32)){
+            c = c;         //This code makes sure whitespace remains as whitespace instead of changing to another ASCII value
+            msg[i] = c;
+        }
+    } 
+    return msg[i];         //Returns the decrypted message back to main
+}
+
+
+int task5(char msg[50], char enc[50], int r){
+    int i;
+    char c;
+    
+    for(i = 0; enc[i] != '\0'; ++i){    //Initialising "for" loop 
+        c = enc[i];                     //Assigning enc[i] to "c" (character)
+        
+        if(c >= 'A' && c <= 'Z'){
+            c = c - r;                  //Assigning the initial character - rotation amount to the value of c        
+            
+            if(c < 'A'){
+                c = c + 'Z' - 'A' + 1;  //If the ASCII value of c is less than "A", make the character go back to the end of the alphabet instead of continuing
+            }
+            msg[i] = c;                 //Assigning the value of c to msg[i] (Decrypted message)   
+        }
+        else if((c == 32)){
+            c = c;                      //This code makes sure whitespace remains as whitespace instead of changing to another ASCII value
+            msg[i] = c;
+        }
+    }
+    return msg[i];                      //Returning decrypted message to main       
+}
